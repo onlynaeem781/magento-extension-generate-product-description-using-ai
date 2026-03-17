@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Admin configuration (Stores → Configuration → AI Product Description).
+ *
+ * AI Product Description - Configuration fields for API and prompt.
+ *
+ * @category  Mnaeem
+ * @package   Mnaeem_AiProductDescription
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="mnaeem" translate="label" sortOrder="400">
+            <label>Mnaeem</label>
+        </tab>
+        <section id="mnaeem_aiproductdescription" translate="label" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>AI Product Description</label>
+            <tab>mnaeem</tab>
+            <resource>Mnaeem_AiProductDescription::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Settings</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Module</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment>Enable or disable AI product description generation.</comment>
+                </field>
+                <field id="api_provider" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Provider</label>
+                    <source_model>Mnaeem\AiProductDescription\Model\Config\Source\ApiProvider</source_model>
+                    <comment>Select the AI API provider (default: OpenAI).</comment>
+                </field>
+                <field id="api_key" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>API Key</label>
+                    <comment><![CDATA[Your API key. Stored securely in Magento configuration. Required when module is enabled.]]></comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="api_model" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>AI Model</label>
+                    <comment>e.g. gpt-4o-mini, gpt-4o, gpt-4-turbo</comment>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="max_tokens" translate="label comment" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Tokens</label>
+                    <comment>Maximum tokens in the AI response (e.g. 1000).</comment>
+                    <validate>validate-number validate-greater-than-zero</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="temperature" translate="label comment" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Temperature</label>
+                    <comment>Creativity level 0-2 (e.g. 0.7). Lower = more focused, higher = more creative.</comment>
+                    <validate>validate-number</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="prompt" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Prompt Settings</label>
+                <field id="template" translate="label comment" type="textarea" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Prompt Template</label>
+                    <comment><![CDATA[Use placeholders: {{product_name}}, {{short_description}}, {{category}}, {{attributes}}, {{keywords}}]]></comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

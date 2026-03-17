@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Admin-specific DI (e.g. for admin controller argument).
+ *
+ * @category  Mnaeem
+ * @package   Mnaeem_AiProductDescription
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Admin controller uses interface; global di.xml already binds it -->
+</config>

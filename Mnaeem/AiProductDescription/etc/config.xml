@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Default configuration values.
+ *
+ * AI Product Description - Default settings for the module.
+ *
+ * @category  Mnaeem
+ * @package   Mnaeem_AiProductDescription
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mnaeem_aiproductdescription>
+            <general>
+                <enabled>0</enabled>
+                <api_provider>openai</api_provider>
+                <api_key></api_key>
+                <api_model>gpt-4o-mini</api_model>
+                <max_tokens>1000</max_tokens>
+                <temperature>0.7</temperature>
+            </general>
+            <prompt>
+                <template>Generate an SEO-optimized product description for an e-commerce store. Use the following product information:\n\nProduct Name: {{product_name}}\nShort Description: {{short_description}}\nCategory: {{category}}\nAttributes: {{attributes}}\nKeywords: {{keywords}}\n\nRequirements: Write a compelling, professional product description that is SEO-friendly, includes relevant keywords naturally, and is suitable for the product page. Output only the description text, no meta or labels.</template>
+            </prompt>
+        </mnaeem_aiproductdescription>
+    </default>
+</config>
