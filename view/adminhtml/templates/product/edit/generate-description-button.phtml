@@ -1,0 +1,85 @@
+<?php
+/**
+ * Template: "Generate AI Description" button and script.
+ * Renders only when editing an existing product (product id present).
+ *
+ * @var \Mnaeem\AiProductDescription\Block\Adminhtml\Product\Edit\GenerateDescriptionButton $block
+ * @see \Mnaeem\AiProductDescription\Block\Adminhtml\Product\Edit\GenerateDescriptionButton
+ */
+$productId = $block->getProductId();
+if ($productId <= 0) {
+    return;
+}
+?>
+<div id="mnaeem-ai-description-wrapper" class="admin__page-section" style="margin-bottom: 20px;">
+    <div class="admin__page-section-item">
+        <button type="button"
+                id="mnaeem-generate-ai-description"
+                class="action-secondary"
+                title="<?= $block->escapeHtmlAttr(__('Generate AI Description')) ?>">
+            <?= $block->escapeHtml(__('Generate AI Description')) ?>
+        </button>
+    </div>
+</div>
+<script>
+    require([
+        'jquery',
+        'Magento_Ui/js/modal/alert',
+        'mage/translate'
+    ], function ($, alert, $t) {
+        'use strict';
+        var $btn = $('#mnaeem-generate-ai-description');
+        var generateUrl = '<?= $block->escapeJs($block->getGenerateUrl()) ?>';
+        var productId = <?= (int) $productId ?>;
+        var storeId = <?= (int) $block->getStoreId() ?>;
+        var formKey = $('input[name="form_key"]').val() || '';
+
+        function setDescriptionValue(text) {
+            var $desc = $('[name="product[description]"]').first();
+            if (!$desc.length) {
+                $desc = $('textarea[data-index="description"]').first();
+            }
+            if ($desc.length) {
+                $desc.val(text);
+                if (typeof tinymce !== 'undefined') {
+                    var id = $desc.attr('id');
+                    if (id) {
+                        var ed = tinymce.get(id);
+                        if (ed) {
+                            ed.setContent(text);
+                        }
+                    }
+                }
+            }
+        }
+
+        $btn.on('click', function () {
+            var $el = $(this);
+            if ($el.prop('disabled')) {
+                return;
+            }
+            $el.prop('disabled', true);
+
+            $.ajax({
+                url: generateUrl,
+                type: 'POST',
+                data: {
+                    form_key: formKey,
+                    product_id: productId,
+                    store_id: storeId
+                },
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.success && data.description) {
+                    setDescriptionValue(data.description);
+                } else {
+                    alert({ content: data.message || $t('An error occurred.') });
+                }
+            }).fail(function (xhr, status, err) {
+                alert({ content: $t('Request failed. Please try again.') + ' ' + (err || status) });
+            }).always(function () {
+                $el.prop('disabled', false);
+            });
+        });
+    });
+</script>

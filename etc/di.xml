@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Dependency injection configuration.
+ *
+ * AI Product Description - Binds interfaces to implementations.
+ *
+ * @category  Mnaeem
+ * @package   Mnaeem_AiProductDescription
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Mnaeem\AiProductDescription\Api\ProductDescriptionGeneratorInterface"
+                type="Mnaeem\AiProductDescription\Model\ProductDescriptionGenerator"/>
+</config>
